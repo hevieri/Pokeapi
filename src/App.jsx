@@ -1,35 +1,83 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [pokemones, setPokemones] = useState([]);
+
+  useEffect(() => {
+    // 1. Traer los primeros 10 Pokémon (solo nombres y URLs)
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=10')
+      .then(res => res.json())
+      .then(async data => {
+        // 2. Para cada Pokémon, pedimos su info detallada
+        const detalles = await Promise.all(
+          data.results.map(p =>
+            fetch(p.url).then(res => res.json())
+          )
+        );
+        setPokemones(detalles); // 3. Guardamos todos los datos en el estado
+      })
+      .catch(err => console.error('Error al obtener Pokémon:', err));
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="app-container">
+      <h1>Pokémon desde la API</h1>
+      <div className="cards-container">
+        {pokemones.map(pokemon => (
+          <div className={`card ${getTypeColor(pokemon.types[0].type.name)}`}>
+
+            <h2 className="card-title">{pokemon.name}</h2>
+            <img
+              className="card-image"
+              src={pokemon.sprites.front_default}
+              alt={pokemon.name}
+            />
+            <div className="card-info">
+              <p><strong>Altura:</strong> {pokemon.height}</p>
+              <p><strong>Peso:</strong> {pokemon.weight}</p>
+              <p>
+                <strong>Tipos:</strong>{' '}
+                {pokemon.types.map(({ type }) => (
+                  <span key={type.name} className={`type-badge ${getTypeColor(type.name)}`}>
+                  {type.name}
+                </span>
+
+                ))}
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
+
+// colores por tipos
+
+function getTypeColor(type) {
+  const colors = {
+    fire: 'bg-fire',
+    water: 'bg-water',
+    grass: 'bg-grass',
+    electric: 'bg-electric',
+    psychic: 'bg-psychic',
+    rock: 'bg-rock',
+    ground: 'bg-ground',
+    bug: 'bg-bug',
+    ghost: 'bg-ghost',
+    dragon: 'bg-dragon',
+    ice: 'bg-ice',
+    fighting: 'bg-fighting',
+    normal: 'bg-normal',
+    poison: 'bg-poison',
+    fairy: 'bg-fairy',
+    dark: 'bg-dark',
+    steel: 'bg-steel',
+    flying: 'bg-flying'
+  };
+
+  return colors[type] || 'bg-default';
+}

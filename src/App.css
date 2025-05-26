@@ -1,42 +1,102 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+.app-container {
   text-align: center;
+  padding: 2rem;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
 }
 
 .card {
-  padding: 2em;
+  position: relative;
+  font-family: 'Fredoka One', cursive;
+  border-radius: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 200px;
+  padding: 1rem;
+  text-transform: capitalize;
+  color: white;
+  overflow: hidden;
 }
 
-.read-the-docs {
-  color: #888;
+/* Brillo suave tipo carta */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.15), transparent 70%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  border-radius: 1rem;
+  z-index: 1;
 }
+
+/* Para que el contenido esté arriba del brillo */
+.card > * {
+  position: relative;
+  z-index: 2;
+}
+
+.card-image {
+  width: 100px;
+  height: 100px;
+}
+
+.card-info {
+  margin-top: 1rem;
+}
+
+.type-badge {
+  border-radius: 0.5rem;
+  padding: 0.2rem 0.5rem;
+  margin: 0 0.2rem;
+  color: white;
+  display: inline-block;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+/* Colores de fondo translúcidos por tipo para .card */
+.bg-fire { background-color: rgba(240, 128, 48, 0.15); }
+.bg-water { background-color: rgba(104, 144, 240, 0.15); }
+.bg-grass { background-color: rgba(120, 200, 80, 0.15); }
+.bg-electric { background-color: rgba(248, 208, 48, 0.15); }
+.bg-psychic { background-color: rgba(248, 88, 136, 0.15); }
+.bg-rock { background-color: rgba(184, 160, 56, 0.15); }
+.bg-ground { background-color: rgba(224, 192, 104, 0.15); }
+.bg-bug { background-color: rgba(168, 184, 32, 0.15); }
+.bg-ghost { background-color: rgba(112, 88, 152, 0.15); }
+.bg-dragon { background-color: rgba(112, 56, 248, 0.15); }
+.bg-ice { background-color: rgba(152, 216, 216, 0.15); }
+.bg-fighting { background-color: rgba(192, 48, 40, 0.15); }
+.bg-normal { background-color: rgba(168, 168, 120, 0.15); }
+.bg-poison { background-color: rgba(160, 64, 160, 0.15); }
+.bg-fairy { background-color: rgba(238, 153, 172, 0.15); }
+.bg-dark { background-color: rgba(112, 88, 72, 0.15); }
+.bg-steel { background-color: rgba(184, 184, 208, 0.15); }
+.bg-flying { background-color: rgba(168, 144, 240, 0.15); }
+.bg-default { background-color: rgba(153, 153, 153, 0.15); }
+
+/* Tipos sólidos para las BADGES (se mantienen como estaban) */
+.type-badge.bg-fire { background-color: #f08030; }
+.type-badge.bg-water { background-color: #6890f0; }
+.type-badge.bg-grass { background-color: #78c850; }
+.type-badge.bg-electric { background-color: #f8d030; color: #000; }
+.type-badge.bg-psychic { background-color: #f85888; }
+.type-badge.bg-rock { background-color: #b8a038; }
+.type-badge.bg-ground { background-color: #e0c068; color: #000; }
+.type-badge.bg-bug { background-color: #a8b820; }
+.type-badge.bg-ghost { background-color: #705898; }
+.type-badge.bg-dragon { background-color: #7038f8; }
+.type-badge.bg-ice { background-color: #98d8d8; color: #000; }
+.type-badge.bg-fighting { background-color: #c03028; }
+.type-badge.bg-normal { background-color: #a8a878; }
+.type-badge.bg-poison { background-color: #a040a0; }
+.type-badge.bg-fairy { background-color: #ee99ac; }
+.type-badge.bg-dark { background-color: #705848; }
+.type-badge.bg-steel { background-color: #b8b8d0; color: #000; }
+.type-badge.bg-flying { background-color: #a890f0; }
+.type-badge.bg-default { background-color: #999; }
